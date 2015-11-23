@@ -102,7 +102,7 @@ order by CONSUMPTION_PERCENTAGE desc;"')), httpheader=c(DB='jdbc:oracle:thin:@sa
 from globaleconomics
 where REAL_GDP is not NULL and POP < 266859;"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE)))
   
-  output$distPlot3 <- renderPlot(height=1000, width=2000, {
+  output$distPlot3 <- renderPlot(height=600, width=900, {
     plot3 <- ggplot() + 
       geom_point() +
       labs(title='Real GDP Versus Population') +
