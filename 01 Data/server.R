@@ -33,7 +33,7 @@ where real_gross_domestic_income is not NULL and year > 2000 and year < 2009
 group by country, year);"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON', p1=KPI_Low_Max_value(), p2=KPI_Medium_Max_value()), verbose = TRUE)))
   })
   
-  output$distPlot1 <- renderPlot(height=1800, width=900, {             
+  output$distPlot1 <- renderPlot(height=1800, width=1200, {             
     plot <- ggplot() + 
       coord_cartesian() + 
       scale_y_discrete() +
@@ -71,7 +71,7 @@ from globaleconomics
 where YEAR = 2009
 order by CONSUMPTION_PERCENTAGE desc;"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE))) 
 
-  output$distPlot2 <- renderPlot(height=600, width=900, {
+  output$distPlot2 <- renderPlot(height=800, width=1200, {
     plot1 <- ggplot() + 
       geom_bar() +
       coord_flip() +
@@ -98,7 +98,7 @@ order by CONSUMPTION_PERCENTAGE desc;"')), httpheader=c(DB='jdbc:oracle:thin:@sa
 from globaleconomics
 where REAL_GDP is not NULL and POP < 266859;"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON'), verbose = TRUE)))
   
-  output$distPlot3 <- renderPlot(height=600, width=900, {
+  output$distPlot3 <- renderPlot(height=800, width=1200, {
     plot3 <- ggplot() + 
       geom_point() +
       labs(title='Real GDP Versus Population') +
