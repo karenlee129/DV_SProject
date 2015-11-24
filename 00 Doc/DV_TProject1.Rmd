@@ -6,12 +6,6 @@ output: html_document
 ---
 # Creating Shiny Apps
 
-### Data Frame
-
-
-### ETL.R
-
-
 ## Steps to Reproduce 
 1. Get data set
 2. Use ELT.R to clean up the data
@@ -30,6 +24,8 @@ output: html_document
 
 ## Global Economic Data
 "The Penn World table contains national income and purchasing power data for 189 countries and territories for available years between 1950 and 2009. The data has been converted into common currency and its updated on an annual basis. Funding for this research is provided by the National Science Foundation (NSF)."  
+
+## Global Economics ShinyApps Link
 
 
 #Analysis of Global Economics on ShinyApps

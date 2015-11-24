@@ -25,7 +25,7 @@ dashboardPage(
               sliderInput("KPI1", "KPI_Low_Max_value:", 
                           min = 1, max = 1930.22,  value = 1930.22),
               sliderInput("KPI2", "KPI_Medium_Max_value:", 
-                          min = 1930.22, max = 4108.52,  value = 4108.52),
+                          min = 1930.23, max = 4108.52,  value = 4108.52),
               textInput(inputId = "title", 
                         label = "Crosstab Title",
                         value = "global economics"),

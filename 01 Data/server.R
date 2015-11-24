@@ -16,20 +16,29 @@ shinyServer(function(input, output) {
   observeEvent(input$light, { rv$alpha <- 0.50 })
   observeEvent(input$dark, { rv$alpha <- 0.75 })
   
-  df1 <- eventReactive(input$clicks1, {data.frame(fromJSON(getURL(URLencode(gsub("\n", " ", 'skipper.cs.utexas.edu:5001/rest/native/?query=
 
-"select country, real_gross_domestic_income, year
+  
+  df1 <- eventReactive(input$clicks1, {data.frame(fromJSON(getURL(URLencode(gsub("\n", " ", 'skipper.cs.utexas.edu:5001/rest/native/?query=
+"select country, year, real_gross_domestic_income, kpi as ratio, 
+case
+when kpi < "p1" then \\\'03 Low\\\'
+when kpi < "p2" then \\\'02 Medium\\\'
+else \\\'01 High\\\'
+end kpi
+from (select country, year, 
+sum(real_gross_domestic_income) as real_gross_domestic_income,
+sum(real_gross_domestic_income) as kpi
 from globaleconomics
-where real_gross_domestic_income is not NULL and year >2000 and year<2010;
-                                                                                 "')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON', p1=KPI_Low_Max_value, p2=KPI_Medium_Max_value), verbose = TRUE)))
+where real_gross_domestic_income is not NULL and year > 2000 and year < 2009
+group by country, year);"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON', p1=KPI_Low_Max_value(), p2=KPI_Medium_Max_value()), verbose = TRUE)))
   })
   
   #df1<-dplyr::filter(df, YEAR > 2000)
   #df1<-dplyr::filter(df, YEAR < 2010)
   
-  df1 <- df1 %>% mutate(ratio = REAL_GROSS_DOMESTIC_INCOME) %>% mutate(KPI = ifelse(ratio <= KPI_Low_Max_value, '03 Low', ifelse(ratio <= KPI_Medium_Max_value, '02 Medium', '01 High')))
+  #df1 <- df1 %>% mutate(ratio = REAL_GROSS_DOMESTIC_INCOME) %>% mutate(KPI = ifelse(ratio <= KPI_Low_Max_value, '03 Low', ifelse(ratio <= KPI_Medium_Max_value, '02 Medium', '01 High')))
   
-  output$distPlot1 <- renderPlot({             
+  output$distPlot1 <- renderPlot(height=1800, width=900, {             
     plot <- ggplot() + 
       coord_cartesian() + 
       scale_y_discrete() +
@@ -37,7 +46,7 @@ where real_gross_domestic_income is not NULL and year >2000 and year<2010;
       labs(x=paste("Year"), y=paste("Country")) +
       
       layer(data=df1(), 
-            mapping=aes(x=YEAR, y=COUNTRY, label=ratio), 
+            mapping=aes(x=YEAR, y=COUNTRY, label=KPI), 
             stat="identity", 
             stat_params=list(), 
             geom="text",size = 3,
