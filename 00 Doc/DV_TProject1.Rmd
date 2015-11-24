@@ -26,7 +26,7 @@ output: html_document
 "The Penn World table contains national income and purchasing power data for 189 countries and territories for available years between 1950 and 2009. The data has been converted into common currency and its updated on an annual basis. Funding for this research is provided by the National Science Foundation (NSF)."  
 
 ## Global Economics ShinyApps Link
-
+https://ronly.shinyapps.io/DV_SProject
 
 #Analysis of Global Economics on ShinyApps
 ##Bar Charts
