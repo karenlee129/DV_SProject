@@ -19,7 +19,7 @@ shinyServer(function(input, output) {
 
   
   df1 <- eventReactive(input$clicks1, {data.frame(fromJSON(getURL(URLencode(gsub("\n", " ", 'skipper.cs.utexas.edu:5001/rest/native/?query=
-"select country, year, real_gross_domestic_income, kpi as ratio, 
+"select country, year, round(real_gross_domestic_income) as real_gross_domestic_income, kpi as ratio, 
 case
 when kpi < "p1" then \\\'03 Low\\\'
 when kpi < "p2" then \\\'02 Medium\\\'
@@ -33,11 +33,6 @@ where real_gross_domestic_income is not NULL and year > 2000 and year < 2009
 group by country, year);"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microlab.cs.utexas.edu:1521:orcl', USER='C##cs329e_ryl96', PASS='orcl_ryl96', MODE='native_mode', MODEL='model', returnDimensions = 'False', returnFor = 'JSON', p1=KPI_Low_Max_value(), p2=KPI_Medium_Max_value()), verbose = TRUE)))
   })
   
-  #df1<-dplyr::filter(df, YEAR > 2000)
-  #df1<-dplyr::filter(df, YEAR < 2010)
-  
-  #df1 <- df1 %>% mutate(ratio = REAL_GROSS_DOMESTIC_INCOME) %>% mutate(KPI = ifelse(ratio <= KPI_Low_Max_value, '03 Low', ifelse(ratio <= KPI_Medium_Max_value, '02 Medium', '01 High')))
-  
   output$distPlot1 <- renderPlot(height=1800, width=900, {             
     plot <- ggplot() + 
       coord_cartesian() + 
@@ -46,7 +41,7 @@ group by country, year);"')), httpheader=c(DB='jdbc:oracle:thin:@sayonara.microl
       labs(x=paste("Year"), y=paste("Country")) +
       
       layer(data=df1(), 
-            mapping=aes(x=YEAR, y=COUNTRY, label=KPI), 
+            mapping=aes(x=YEAR, y=COUNTRY, label=REAL_GROSS_DOMESTIC_INCOME), 
             stat="identity", 
             stat_params=list(), 
             geom="text",size = 3,
